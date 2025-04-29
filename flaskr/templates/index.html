@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content%}
+<div class="welcome-container">
+    {% if username %}
+        <h1>Welcome, {{ username }}</h1>
+        <br>
+        <h1>Welcome to the Todo App</h1>
+        <a href="{{ url_for('todos.index') }}" class="btn btn-primary">View To-Do List</a>
+    {% else %}
+        <h1>Welcome to the Todo App</h1>
+    {% endif %}
+</div>
+{% endblock %}

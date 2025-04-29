@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="todo-container">
+  <h1>Your To-Do List</h1>
+  <a href="{{ url_for('todos.add') }}" class="btn">+ Add To-Do</a>
+  <table class="todo-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for todo in todos %}
+      <tr {% if todo.completed %}class="completed"{% endif %}>
+        <td>{{ todo.title }}</td>
+        <td>{{ todo.description }}</td>
+        <td>{{ todo.due_date or '' }}</td>
+        <td>
+          {% if todo.completed %}
+            <span class="badge badge-success">Completed</span>
+          {% else %}
+            <span class="badge badge-warning">Pending</span>
+          {% endif %}
+        </td>
+        <td>
+          <form method="post" action="{{ url_for('todos.toggle', todo_id=todo._id) }}" style="display:inline">
+            <button type="submit" class="btn btn-sm">Toggle</button>
+          </form>
+          <a href="{{ url_for('todos.edit', todo_id=todo._id) }}" class="btn btn-sm">Edit</a>
+          <form method="post" action="{{ url_for('todos.delete', todo_id=todo._id) }}" style="display:inline" onsubmit="return confirm('Are you sure?');">
+            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5">No to-dos yet!</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
